@@ -1,4 +1,4 @@
-function SearchBox({ searchChange }) {
+const SearchBox = ({ searchChange }) => {
     return (
         <div className='pa2'>
             <input
