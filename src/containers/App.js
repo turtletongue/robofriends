@@ -7,17 +7,9 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
 import { setSearchField } from '../actions';
 
-const mapStateToProps = state => {
-    return {
-        searchField: state.setSearchField
-    };
-};
+const mapStateToProps = (state) => ({ searchField: state.searchField });
 
-const mapDiscpatchToProps = dispatch => {
-    return {
-        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
-    };
-};
+const mapDiscpatchToProps = (dispatch) => ({ onSearchChange: (event) => {dispatch(setSearchField(event.target.value))}});
 
 class App extends React.Component {
     constructor() {
@@ -37,7 +29,7 @@ class App extends React.Component {
         const { robots } = this.state;
         const { searchField, onSearchChange } = this.props;
         const filteredRobots = robots.filter(({ name }) => {
-            return name.toLowerCase().includes(searchField.toLowerCase())
+            return name.toLowerCase().includes(searchField.toLowerCase());
         });
 
         return !robots.length ? 
