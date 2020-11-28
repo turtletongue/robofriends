@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
@@ -19,32 +19,27 @@ const mapDiscpatchToProps = (dispatch) => ({
     onRequestRobots: () => dispatch(requestRobots())
 });
 
-class App extends React.Component {
+const App = ({ searchField, robots, isPending, onSearchChange, onRequestRobots }) => {
 
-    componentDidMount() {
-        this.props.onRequestRobots();
-    }
+    useEffect(() => onRequestRobots(), [onRequestRobots]);
 
-    render() {
-        const { searchField, robots, isPending, onSearchChange } = this.props;
-        const filteredRobots = robots.filter(({ name }) => {
-            return name.toLowerCase().includes(searchField.toLowerCase());
-        });
+    const filteredRobots = robots.filter(({ name }) => {
+        return name.toLowerCase().includes(searchField.toLowerCase());
+    });
 
-        return isPending ? 
-            (<h1 className="tc">Loading</h1>) :
-            (
-            <div className="tc">
-                <h1 className='f2'>Robofriends</h1>
-                <SearchBox searchChange={onSearchChange}/>
-                <Scroll>
-                    <ErrorBoundary>
-                        <CardList robots={filteredRobots} />
-                    </ErrorBoundary>
-                </Scroll>
-            </div>
-        );
-    }
+    return isPending ? 
+        (<h1 className="tc">Loading</h1>) :
+        (
+        <div className="tc">
+            <h1 className='f2'>Robofriends</h1>
+            <SearchBox searchChange={onSearchChange}/>
+            <Scroll>
+                <ErrorBoundary>
+                    <CardList robots={filteredRobots} />
+                </ErrorBoundary>
+            </Scroll>
+        </div>
+    );
 }
 
 export default connect(mapStateToProps, mapDiscpatchToProps)(App);
